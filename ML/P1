@@ -1,0 +1,93 @@
+
+import pandas as pd
+data=pd.read_csv("Heart.csv")
+data.shape
+(303, 15)
+data.isnull().sum()
+Unnamed: 0    0
+Age           0
+Sex           0
+ChestPain     0
+RestBP        0
+Chol          0
+Fbs           0
+RestECG       0
+MaxHR         0
+ExAng         0
+Oldpeak       0
+Slope         0
+Ca            4
+Thal          2
+AHD           0
+dtype: int64
+data.dtypes
+Unnamed: 0      int64
+Age             int64
+Sex             int64
+ChestPain      object
+RestBP          int64
+Chol            int64
+Fbs             int64
+RestECG         int64
+MaxHR           int64
+ExAng           int64
+Oldpeak       float64
+Slope           int64
+Ca            float64
+Thal           object
+AHD            object
+dtype: object
+data[data==0].count()
+Unnamed: 0      0
+Age             0
+Sex            97
+ChestPain       0
+RestBP          0
+Chol            0
+Fbs           258
+RestECG       151
+MaxHR           0
+ExAng         204
+Oldpeak        99
+Slope           0
+Ca            176
+Thal            0
+AHD             0
+dtype: int64
+data["Age"].mean()
+54.43894389438944
+newdata=data[["Age","Sex","ChestPain","RestBP","Chol"]]
+from sklearn.model_selection import train_test_split
+train, test = train_test_split(newdata, random_state=0, test_size=0.25)
+train
+Age	Sex	ChestPain	RestBP	Chol
+173	62	0	asymptomatic	140	394
+261	58	0	nontypical	136	319
+37	57	1	asymptomatic	150	276
+101	34	1	typical	118	182
+166	52	1	nonanginal	138	223
+...	...	...	...	...	...
+251	58	1	asymptomatic	146	218
+192	43	1	asymptomatic	132	247
+117	35	0	asymptomatic	138	183
+47	50	1	asymptomatic	150	243
+172	59	0	asymptomatic	174	249
+227 rows × 5 columns
+
+import numpy as np
+actual=list(np.ones(45))+list(np.zeros(55))
+predicted=list(np.ones(40))+list(np.zeros(52))+list(np.ones(8))
+from sklearn.metrics import ConfusionMatrixDisplay
+ConfusionMatrixDisplay.from_predictions(actual,predicted)
+<sklearn.metrics._plot.confusion_matrix.ConfusionMatrixDisplay at 0x19e93fa8590>
+
+from sklearn.metrics import classification_report
+print(classification_report(actual,predicted))
+              precision    recall  f1-score   support
+
+         0.0       0.90      0.85      0.88        55
+         1.0       0.83      0.89      0.86        45
+
+    accuracy                           0.87       100
+   macro avg       0.87      0.87      0.87       100
+weighted avg       0.87      0.87      0.87       100
